@@ -15,8 +15,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var startButton:Button
     lateinit var coutdownDisplay:TextView
 
-    val timeToCountDownInMs = 5000L
+    var timeToCountDownInMs = 5000L
     val timeTicks = 1000L
+    val oneMinutinTicks = 60000L;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,40 @@ class MainActivity : AppCompatActivity() {
        }
        coutdownDisplay = findViewById<TextView>(R.id.countDownView)
 
+
+       var thirtyMinutesButton = findViewById<Button>(R.id.setTimeDurationTo30MinutesBt)
+        thirtyMinutesButton.setOnClickListener(){
+            if(startButton.isEnabled){
+                setCountDownTime(oneMinutinTicks*30)
+            }
+        }
+        var sixtyMinutesButton = findViewById<Button>(R.id.setTimeDurationTo60MinutesBt)
+        sixtyMinutesButton.setOnClickListener(){
+            if(startButton.isEnabled){
+                setCountDownTime(oneMinutinTicks*60)
+            }
+        }
+        var ninetyMinutesButton = findViewById<Button>(R.id.setTimeDurationTo90MinutesBt)
+        ninetyMinutesButton.setOnClickListener(){
+            if(startButton.isEnabled){
+                setCountDownTime(oneMinutinTicks*90)
+            }
+        }
+        var oneTwentyMinutesButton = findViewById<Button>(R.id.setTimeDurationTo120MinutesBt)
+        oneTwentyMinutesButton.setOnClickListener(){
+            if(startButton.isEnabled){
+                setCountDownTime(oneMinutinTicks*120)
+            }
+        }
+
+
+
+
+    }
+
+    fun setCountDownTime(newCountDownTimeInMs:Long){
+        timeToCountDownInMs = newCountDownTimeInMs
+        updateCountDownDisplay(timeToCountDownInMs)
     }
 
     fun startCountDown(v: View){
@@ -35,13 +70,14 @@ class MainActivity : AppCompatActivity() {
         timer = object : CountDownTimer(timeToCountDownInMs,timeTicks) {
             override fun onFinish() {
                 Toast.makeText(this@MainActivity,"Arbeidsøkt er ferdig", Toast.LENGTH_SHORT).show()
+                v.isEnabled=true
             }
 
             override fun onTick(millisUntilFinished: Long) {
                updateCountDownDisplay(millisUntilFinished)
             }
         }
-
+        v.isEnabled=false
         timer.start()
     }
 
